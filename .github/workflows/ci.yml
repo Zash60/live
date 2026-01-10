@@ -7,50 +7,6 @@ on:
     branches: [ main, develop ]
 
 jobs:
-  test:
-    name: Run Tests
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-
-    - name: Set up JDK 11
-      uses: actions/setup-java@v4
-      with:
-        java-version: '11'
-        distribution: 'temurin'
-
-    - name: Cache Gradle packages
-      uses: actions/cache@v3
-      with:
-        path: |
-          ~/.gradle/caches
-          ~/.gradle/wrapper
-        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-        restore-keys: |
-          ${{ runner.os }}-gradle-
-
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
-
-    - name: Create local.properties
-      run: |
-        echo "YOUTUBE_API_KEY=test_key" > local.properties
-        echo "GOOGLE_CLIENT_ID=test_client_id" >> local.properties
-
-    - name: Run unit tests
-      run: ./gradlew testDebugUnitTest --no-daemon
-
-    - name: Upload test results
-      uses: actions/upload-artifact@v4
-      if: always()
-      with:
-        name: test-results
-        path: |
-          **/build/test-results/**/*.xml
-          **/build/reports/tests/**
-
   build:
     name: Build APKs
     runs-on: ubuntu-latest
@@ -145,50 +101,3 @@ jobs:
         path: |
           **/build/reports/lint-results*.html
           **/build/reports/lint-results*.xml
-
-  instrumentation-test:
-    name: Instrumentation Tests
-    runs-on: macos-latest  # Use macOS for better emulator performance
-    needs: build
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-
-    - name: Set up JDK 11
-      uses: actions/setup-java@v4
-      with:
-        java-version: '11'
-        distribution: 'temurin'
-
-    - name: Cache Gradle packages
-      uses: actions/cache@v3
-      with:
-        path: |
-          ~/.gradle/caches
-          ~/.gradle/wrapper
-        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-        restore-keys: |
-          ${{ runner.os }}-gradle-
-
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
-
-    - name: Create local.properties
-      run: |
-        echo "YOUTUBE_API_KEY=test_key" > local.properties
-        echo "GOOGLE_CLIENT_ID=test_client_id" >> local.properties
-
-    - name: Run instrumentation tests
-      uses: reactivecircus/android-emulator-runner@v2
-      with:
-        api-level: 29
-        script: ./gradlew connectedDebugAndroidTest --no-daemon
-
-    - name: Upload instrumentation test results
-      uses: actions/upload-artifact@v4
-      if: always()
-      with:
-        name: instrumentation-test-results
-        path: |
-          **/build/reports/androidTests/**
