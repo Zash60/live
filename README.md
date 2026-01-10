@@ -70,7 +70,22 @@ app/
    - Navigate to the cloned directory and select it
 
 3. **Configure API Keys:**
-   - Follow the [API Setup Guide](docs/api-setup.md) to configure YouTube Data API v3 and Google OAuth
+    - Follow the [API Setup Guide](docs/api-setup.md) to configure YouTube Data API v3 and Google OAuth
+
+3.5 **Download Gradle Wrapper JAR (if missing):**
+    If the `gradle-wrapper.jar` file is missing from the `gradle/wrapper/` directory, download it manually:
+    ```bash
+    mkdir -p gradle/wrapper
+    curl -L https://services.gradle.org/distributions/gradle-8.0-wrapper.jar -o gradle/wrapper/gradle-wrapper.jar
+    ```
+    Additionally, create `gradle/wrapper/gradle-wrapper.properties` with the following content:
+    ```
+    distributionBase=GRADLE_USER_HOME
+    distributionPath=wrapper/dists
+    distributionUrl=https\://services.gradle.org/distributions/gradle-8.0-bin.zip
+    zipStoreBase=GRADLE_USER_HOME
+    zipStorePath=wrapper/dists
+    ```
 
 4. **Build the project:**
    ```bash
