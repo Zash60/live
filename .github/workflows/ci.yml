@@ -43,7 +43,7 @@ jobs:
       run: ./gradlew testDebugUnitTest --no-daemon
 
     - name: Upload test results
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: always()
       with:
         name: test-results
@@ -91,13 +91,13 @@ jobs:
       run: ./gradlew bundleRelease --no-daemon
 
     - name: Upload debug APK
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: debug-apk
         path: app/build/outputs/apk/debug/*.apk
 
     - name: Upload release bundle
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: release-bundle
         path: app/build/outputs/bundle/release/*.aab
@@ -138,7 +138,7 @@ jobs:
       run: ./gradlew lintDebug --no-daemon
 
     - name: Upload lint results
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: always()
       with:
         name: lint-results
@@ -186,7 +186,7 @@ jobs:
         script: ./gradlew connectedDebugAndroidTest --no-daemon
 
     - name: Upload instrumentation test results
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: always()
       with:
         name: instrumentation-test-results
