@@ -25,7 +25,7 @@ class UserDataSourceImpl @Inject constructor(
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestEmail()
             .requestProfile()
-            .requestScopes(com.google.api.services.youtube.YouTubeScopes.YOUTUBE_READONLY)
+            .requestScopes(Scope(com.google.api.services.youtube.YouTubeScopes.YOUTUBE_READONLY))
             .build()
         GoogleSignIn.getClient(context, gso)
     }
@@ -34,7 +34,7 @@ class UserDataSourceImpl @Inject constructor(
         val account = GoogleSignIn.getLastSignedInAccount(context)
         val credential = GoogleAccountCredential.usingOAuth2(
             context,
-            listOf(com.google.api.services.youtube.YouTubeScopes.YOUTUBE_READONLY)
+            listOf(Scope(com.google.api.services.youtube.YouTubeScopes.YOUTUBE_READONLY))
         ).apply {
             selectedAccount = account?.account
         }
@@ -73,7 +73,7 @@ class UserDataSourceImpl @Inject constructor(
                 profilePictureUrl = account.photoUrl?.toString(),
                 channelId = channel?.id,
                 channelTitle = channel?.snippet?.title,
-                subscriberCount = channel?.statistics?.subscriberCount
+                subscriberCount = channel?.statistics?.subscriberCount?.toLong()
             )
             emit(Result.success(user))
         } catch (e: Exception) {
