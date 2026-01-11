@@ -42,8 +42,9 @@ dependencies {
     implementation(project(":data"))
 
     // Hilt
-    implementation("com.google.dagger:hilt-android:2.45")
-    kapt("com.google.dagger:hilt-compiler:2.45")
+    implementation("com.google.dagger:hilt-android:2.46")
+    kapt("com.google.dagger:hilt-compiler:2.46")
+    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
 
     // Compose
     implementation("androidx.compose.ui:ui:1.5.0")
