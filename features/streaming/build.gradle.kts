@@ -5,10 +5,6 @@ plugins {
     id("com.google.dagger.hilt.android")
 }
 
-repositories {
-    mavenCentral()
-}
-
 android {
     namespace = "com.example.liveapp.features.streaming"
     compileSdk = 34
