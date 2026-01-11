@@ -43,10 +43,11 @@ dependencies {
     // Hilt
     implementation("com.google.dagger:hilt-android:2.46")
     kapt("com.google.dagger:hilt-compiler:2.46")
+    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
 
     // Compose
     implementation("androidx.compose.ui:ui:1.5.0")
-    implementation("androidx.compose.material:material:1.5.0")
+    implementation("androidx.compose.material3:material3:1.5.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
 
     // Navigation
