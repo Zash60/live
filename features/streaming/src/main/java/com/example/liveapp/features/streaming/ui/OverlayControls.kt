@@ -118,7 +118,7 @@ fun OverlayControls(
                             Icons.Default.Videocam
                         else
                             Icons.Default.VideocamOff,
-                            contentDescription = "Toggle Camera Overlay",
+                        contentDescription = "Toggle Camera Overlay",
                         tint = if (currentConfig.cameraOverlayEnabled)
                             Color.White
                         else
