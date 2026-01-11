@@ -33,7 +33,6 @@ android {
 dependencies {
     implementation(project(":domain"))
     implementation(project(":core"))
-    implementation(project(":features:streaming"))
     implementation("androidx.room:room-runtime:2.5.2")
     implementation("androidx.room:room-ktx:2.5.2")
     kapt("androidx.room:room-compiler:2.5.2")

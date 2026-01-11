@@ -1,4 +1,4 @@
-package com.example.liveapp.features.streaming.domain.model
+package com.example.liveapp.domain.model
 
 data class StreamConfig(
     val resolution: Resolution = Resolution.HD_720P,

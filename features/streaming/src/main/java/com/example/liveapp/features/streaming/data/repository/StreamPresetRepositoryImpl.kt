@@ -40,7 +40,7 @@ class StreamPresetRepositoryImpl @Inject constructor(
     }
 
     private fun StreamPresetEntity.toDomain(): StreamPreset {
-        val config = gson.fromJson(configJson, com.example.liveapp.features.streaming.domain.model.StreamConfig::class.java)
+        val config = gson.fromJson(configJson, com.example.liveapp.domain.model.StreamConfig::class.java)
 
         return StreamPreset(
             id = id,

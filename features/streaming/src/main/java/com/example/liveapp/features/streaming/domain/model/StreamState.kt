@@ -1,5 +1,7 @@
 package com.example.liveapp.features.streaming.domain.model
 
+import com.example.liveapp.domain.model.StreamConfig
+
 sealed class StreamState {
     object Idle : StreamState()
     object Preparing : StreamState()

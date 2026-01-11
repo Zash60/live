@@ -25,7 +25,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.liveapp.features.settings.PRIVACY_POLICY_SCREEN
 import com.example.liveapp.features.settings.SettingsViewModel
-import com.example.liveapp.features.streaming.domain.model.StreamConfig
+import com.example.liveapp.domain.model.StreamConfig
 import com.example.liveapp.features.streaming.domain.model.StreamPreset
 
 @OptIn(ExperimentalMaterial3Api::class)

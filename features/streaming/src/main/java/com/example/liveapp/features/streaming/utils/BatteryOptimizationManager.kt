@@ -7,7 +7,7 @@ import android.content.IntentFilter
 import android.os.BatteryManager
 import android.os.PowerManager
 import com.example.liveapp.features.streaming.domain.model.QualityPreset
-import com.example.liveapp.features.streaming.domain.model.StreamConfig
+import com.example.liveapp.domain.model.StreamConfig
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

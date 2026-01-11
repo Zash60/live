@@ -5,7 +5,7 @@ import com.example.liveapp.features.streaming.data.datasource.RTMPDataSource
 import com.example.liveapp.features.streaming.data.datasource.ScreenCaptureDataSource
 import com.example.liveapp.features.streaming.data.datasource.WebRTCDataSource
 import com.example.liveapp.features.streaming.domain.model.NetworkStats
-import com.example.liveapp.features.streaming.domain.model.StreamConfig
+import com.example.liveapp.domain.model.StreamConfig
 import com.example.liveapp.features.streaming.domain.model.StreamState
 import com.example.liveapp.features.streaming.domain.repository.StreamingRepository
 import kotlinx.coroutines.flow.Flow

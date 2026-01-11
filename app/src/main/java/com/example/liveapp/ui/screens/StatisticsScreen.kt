@@ -18,7 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.liveapp.features.streaming.domain.model.ScheduledStream
-import com.example.liveapp.features.streaming.domain.model.StreamConfig
+import com.example.liveapp.domain.model.StreamConfig
 import com.example.liveapp.features.streaming.domain.model.StreamHistory
 import com.example.liveapp.features.streaming.domain.usecase.SaveScheduledStreamUseCase
 import java.time.LocalDateTime

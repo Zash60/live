@@ -1,7 +1,7 @@
 package com.example.liveapp.features.streaming.domain.repository
 
 import com.example.liveapp.features.streaming.domain.model.NetworkStats
-import com.example.liveapp.features.streaming.domain.model.StreamConfig
+import com.example.liveapp.domain.model.StreamConfig
 import com.example.liveapp.features.streaming.domain.model.StreamState
 import kotlinx.coroutines.flow.Flow
 

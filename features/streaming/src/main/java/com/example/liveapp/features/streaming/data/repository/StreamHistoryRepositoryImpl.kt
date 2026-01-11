@@ -55,7 +55,7 @@ class StreamHistoryRepositoryImpl @Inject constructor(
     }
 
     private fun StreamHistoryEntity.toDomain(): StreamHistory {
-        val config = gson.fromJson(configJson, com.example.liveapp.features.streaming.domain.model.StreamConfig::class.java)
+        val config = gson.fromJson(configJson, com.example.liveapp.domain.model.StreamConfig::class.java)
         val startTime = LocalDateTime.ofEpochSecond(startTime, 0, ZoneOffset.UTC)
         val endTime = LocalDateTime.ofEpochSecond(endTime, 0, ZoneOffset.UTC)
         val engagementMetrics = EngagementMetrics(likes, comments, shares, follows)

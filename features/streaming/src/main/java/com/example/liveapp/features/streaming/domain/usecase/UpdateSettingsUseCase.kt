@@ -1,6 +1,6 @@
 package com.example.liveapp.features.streaming.domain.usecase
 
-import com.example.liveapp.features.streaming.domain.model.StreamConfig
+import com.example.liveapp.domain.model.StreamConfig
 import com.example.liveapp.features.streaming.domain.repository.StreamingRepository
 import javax.inject.Inject
 

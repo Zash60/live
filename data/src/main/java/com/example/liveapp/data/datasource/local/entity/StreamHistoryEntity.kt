@@ -3,7 +3,6 @@ package com.example.liveapp.data.datasource.local.entity
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import com.example.liveapp.features.streaming.domain.model.StreamConfig
 
 @Entity(
     tableName = "stream_history",

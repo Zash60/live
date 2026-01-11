@@ -62,7 +62,7 @@ class ScheduledStreamRepositoryImpl @Inject constructor(
     }
 
     private fun ScheduledStreamEntity.toDomain(): ScheduledStream {
-        val config = gson.fromJson(configJson, com.example.liveapp.features.streaming.domain.model.StreamConfig::class.java)
+        val config = gson.fromJson(configJson, com.example.liveapp.domain.model.StreamConfig::class.java)
         val scheduledTime = LocalDateTime.ofEpochSecond(scheduledTime, 0, ZoneOffset.UTC)
 
         return ScheduledStream(

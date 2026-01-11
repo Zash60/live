@@ -1,7 +1,7 @@
 package com.example.liveapp.features.streaming.data.datasource
 
 import com.example.liveapp.core.NetworkOptimizer
-import com.example.liveapp.features.streaming.domain.model.StreamConfig
+import com.example.liveapp.domain.model.StreamConfig
 import kotlinx.coroutines.suspendCancellableCoroutine
 import javax.inject.Inject
 import kotlin.coroutines.resume

@@ -1,7 +1,7 @@
 package com.example.liveapp.data.datasource.local
 
 import androidx.room.TypeConverter
-import com.example.liveapp.features.streaming.domain.model.StreamConfig
+import com.example.liveapp.domain.model.StreamConfig
 import com.google.gson.Gson
 import java.time.LocalDateTime
 import java.time.ZoneOffset
