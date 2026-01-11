@@ -13,10 +13,10 @@ import kotlinx.coroutines.flow.Flow
 interface ScheduledStreamDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertScheduledStream(scheduledStream: ScheduledStreamEntity): Long
+    fun insertScheduledStream(scheduledStream: ScheduledStreamEntity): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertScheduledStreams(scheduledStreams: List<ScheduledStreamEntity>): List<Long>
+    fun insertScheduledStreams(scheduledStreams: List<ScheduledStreamEntity>): List<Long>
 
     @Query("SELECT * FROM scheduled_streams ORDER BY scheduledTime ASC")
     fun getAllScheduledStreams(): Flow<List<ScheduledStreamEntity>>
@@ -25,28 +25,28 @@ interface ScheduledStreamDao {
     fun getUpcomingScheduledStreams(currentTime: Long): Flow<List<ScheduledStreamEntity>>
 
     @Query("SELECT * FROM scheduled_streams WHERE id = :id")
-    suspend fun getScheduledStreamById(id: Long): ScheduledStreamEntity?
+    fun getScheduledStreamById(id: Long): Flow<ScheduledStreamEntity?>
 
     @Query("DELETE FROM scheduled_streams WHERE id = :id")
-    suspend fun deleteScheduledStream(id: Long): Int
+    fun deleteScheduledStream(id: Long): Int
 
     @Query("UPDATE scheduled_streams SET isNotified = 1 WHERE id = :id")
-    suspend fun markAsNotified(id: Long): Int
+    fun markAsNotified(id: Long): Int
 
     @Update
-    suspend fun updateScheduledStream(scheduledStream: ScheduledStreamEntity): Int
+    fun updateScheduledStream(scheduledStream: ScheduledStreamEntity): Int
 
     @Update
-    suspend fun updateScheduledStreams(scheduledStreams: List<ScheduledStreamEntity>): Int
+    fun updateScheduledStreams(scheduledStreams: List<ScheduledStreamEntity>): Int
 
     @Query("DELETE FROM scheduled_streams WHERE id IN (:ids)")
-    suspend fun deleteScheduledStreams(ids: List<Long>): Int
+    fun deleteScheduledStreams(ids: List<Long>): Int
 
     @Query("UPDATE scheduled_streams SET isNotified = 1 WHERE id IN (:ids)")
-    suspend fun markAsNotifiedBatch(ids: List<Long>): Int
+    fun markAsNotifiedBatch(ids: List<Long>): Int
 
     @Transaction
-    suspend fun insertOrUpdateBatch(scheduledStreams: List<ScheduledStreamEntity>) {
+    fun insertOrUpdateBatch(scheduledStreams: List<ScheduledStreamEntity>) {
         // First try to insert, then update existing ones
         val ids = insertScheduledStreams(scheduledStreams)
         val entitiesToUpdate = scheduledStreams.filterIndexed { index, _ ->

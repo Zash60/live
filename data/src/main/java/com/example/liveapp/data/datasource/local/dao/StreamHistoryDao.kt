@@ -11,26 +11,26 @@ import kotlinx.coroutines.flow.Flow
 interface StreamHistoryDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertStreamHistory(streamHistory: StreamHistoryEntity): Long
+    fun insertStreamHistory(streamHistory: StreamHistoryEntity): Long
 
     @Query("SELECT * FROM stream_history ORDER BY startTime DESC")
     fun getAllStreamHistory(): Flow<List<StreamHistoryEntity>>
 
     @Query("SELECT * FROM stream_history WHERE id = :id")
-    suspend fun getStreamHistoryById(id: Long): StreamHistoryEntity?
+    fun getStreamHistoryById(id: Long): Flow<StreamHistoryEntity?>
 
     @Query("DELETE FROM stream_history WHERE id = :id")
-    suspend fun deleteStreamHistory(id: Long): Int
+    fun deleteStreamHistory(id: Long): Int
 
     @Query("SELECT COUNT(*) FROM stream_history")
-    suspend fun getTotalStreamsCount(): Int
+    fun getTotalStreamsCount(): Flow<Int>
 
     @Query("SELECT AVG((endTime - startTime) / 60000.0) FROM stream_history")
-    suspend fun getAverageDurationMinutes(): Double?
+    fun getAverageDurationMinutes(): Flow<Double?>
 
     @Query("SELECT MAX(peakViewers) FROM stream_history")
-    suspend fun getPeakViewers(): Int?
+    fun getPeakViewers(): Flow<Int?>
 
     @Query("SELECT AVG(averageViewers) FROM stream_history")
-    suspend fun getAverageViewers(): Double?
+    fun getAverageViewers(): Flow<Double?>
 }

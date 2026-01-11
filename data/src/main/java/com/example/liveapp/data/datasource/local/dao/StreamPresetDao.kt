@@ -11,17 +11,17 @@ import kotlinx.coroutines.flow.Flow
 interface StreamPresetDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertStreamPreset(preset: StreamPresetEntity): Long
+    fun insertStreamPreset(preset: StreamPresetEntity): Long
 
     @Query("SELECT * FROM stream_presets ORDER BY createdAt DESC")
     fun getAllStreamPresets(): Flow<List<StreamPresetEntity>>
 
     @Query("SELECT * FROM stream_presets WHERE id = :id")
-    suspend fun getStreamPresetById(id: Long): StreamPresetEntity?
+    fun getStreamPresetById(id: Long): Flow<StreamPresetEntity?>
 
     @Query("DELETE FROM stream_presets WHERE id = :id")
-    suspend fun deleteStreamPreset(id: Long): Int
+    fun deleteStreamPreset(id: Long): Int
 
     @Query("UPDATE stream_presets SET name = :name, configJson = :configJson, titleTemplate = :titleTemplate WHERE id = :id")
-    suspend fun updateStreamPreset(id: Long, name: String, configJson: String, titleTemplate: String): Int
+    fun updateStreamPreset(id: Long, name: String, configJson: String, titleTemplate: String): Int
 }
