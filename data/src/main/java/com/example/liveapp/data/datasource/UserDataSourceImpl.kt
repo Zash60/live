@@ -34,7 +34,7 @@ class UserDataSourceImpl @Inject constructor(
         val account = GoogleSignIn.getLastSignedInAccount(context)
         val credential = GoogleAccountCredential.usingOAuth2(
             context,
-            listOf(Scope(com.google.api.services.youtube.YouTubeScopes.YOUTUBE_READONLY))
+            listOf(com.google.api.services.youtube.YouTubeScopes.YOUTUBE_READONLY)
         ).apply {
             selectedAccount = account?.account
         }
