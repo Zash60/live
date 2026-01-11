@@ -5,7 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.example.liveapp.features.settings.ui.PrivacyPolicyScreen
-import com.example.liveapp.ui.screens.SettingsScreen
+import com.example.liveapp.features.settings.ui.SettingsScreen
 
 const val SETTINGS_GRAPH = "settings_graph"
 const val SETTINGS_SCREEN = "settings"
