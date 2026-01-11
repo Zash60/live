@@ -20,8 +20,8 @@ interface StreamPresetDao {
     suspend fun getStreamPresetById(id: Long): StreamPresetEntity?
 
     @Query("DELETE FROM stream_presets WHERE id = :id")
-    suspend fun deleteStreamPreset(id: Long)
+    suspend fun deleteStreamPreset(id: Long): Int
 
     @Query("UPDATE stream_presets SET name = :name, configJson = :configJson, titleTemplate = :titleTemplate WHERE id = :id")
-    suspend fun updateStreamPreset(id: Long, name: String, configJson: String, titleTemplate: String)
+    suspend fun updateStreamPreset(id: Long, name: String, configJson: String, titleTemplate: String): Int
 }

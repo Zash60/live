@@ -20,7 +20,7 @@ interface StreamHistoryDao {
     suspend fun getStreamHistoryById(id: Long): StreamHistoryEntity?
 
     @Query("DELETE FROM stream_history WHERE id = :id")
-    suspend fun deleteStreamHistory(id: Long)
+    suspend fun deleteStreamHistory(id: Long): Int
 
     @Query("SELECT COUNT(*) FROM stream_history")
     suspend fun getTotalStreamsCount(): Int

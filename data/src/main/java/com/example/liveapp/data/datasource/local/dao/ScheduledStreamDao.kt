@@ -28,22 +28,22 @@ interface ScheduledStreamDao {
     suspend fun getScheduledStreamById(id: Long): ScheduledStreamEntity?
 
     @Query("DELETE FROM scheduled_streams WHERE id = :id")
-    suspend fun deleteScheduledStream(id: Long)
+    suspend fun deleteScheduledStream(id: Long): Int
 
     @Query("UPDATE scheduled_streams SET isNotified = 1 WHERE id = :id")
-    suspend fun markAsNotified(id: Long)
+    suspend fun markAsNotified(id: Long): Int
 
     @Update
-    suspend fun updateScheduledStream(scheduledStream: ScheduledStreamEntity)
+    suspend fun updateScheduledStream(scheduledStream: ScheduledStreamEntity): Int
 
     @Update
-    suspend fun updateScheduledStreams(scheduledStreams: List<ScheduledStreamEntity>)
+    suspend fun updateScheduledStreams(scheduledStreams: List<ScheduledStreamEntity>): Int
 
     @Query("DELETE FROM scheduled_streams WHERE id IN (:ids)")
-    suspend fun deleteScheduledStreams(ids: List<Long>)
+    suspend fun deleteScheduledStreams(ids: List<Long>): Int
 
     @Query("UPDATE scheduled_streams SET isNotified = 1 WHERE id IN (:ids)")
-    suspend fun markAsNotifiedBatch(ids: List<Long>)
+    suspend fun markAsNotifiedBatch(ids: List<Long>): Int
 
     @Transaction
     suspend fun insertOrUpdateBatch(scheduledStreams: List<ScheduledStreamEntity>) {
