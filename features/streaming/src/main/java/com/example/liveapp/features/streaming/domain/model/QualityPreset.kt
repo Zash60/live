@@ -1,5 +1,7 @@
 package com.example.liveapp.features.streaming.domain.model
 
+import com.example.liveapp.domain.model.Resolution
+
 data class QualityPreset(
     val name: String,
     val resolution: Resolution,
