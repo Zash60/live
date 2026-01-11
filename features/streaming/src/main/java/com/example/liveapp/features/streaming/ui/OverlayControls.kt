@@ -28,7 +28,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.liveapp.features.chat.ui.AlertNotification
 import com.example.liveapp.features.chat.ui.ChatOverlay
-import com.example.liveapp.features.streaming.StreamingNavigation.FULL_CHAT
+import com.example.liveapp.features.streaming.FULL_CHAT
 import com.example.liveapp.features.streaming.StreamingViewModel
 import com.example.liveapp.features.streaming.domain.model.StreamState
 
@@ -118,7 +118,7 @@ fun OverlayControls(
                             Icons.Default.Videocam
                         else
                             Icons.Default.VideocamOff,
-                        contentDescription = "Toggle Camera Overlay",
+                            contentDescription = "Toggle Camera Overlay",
                         tint = if (currentConfig.cameraOverlayEnabled)
                             Color.White
                         else
