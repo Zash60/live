@@ -49,7 +49,10 @@ dependencies {
 
     // YouTube API
     implementation("com.google.apis:google-api-services-youtube:v3-rev20251217-2.0.0")
-    implementation("com.google.api-client:google-api-client-android:2.2.0")
+    implementation("com.google.api-client:google-api-client-android:2.2.0") {
+        exclude(group = "org.apache.httpcomponents", module = "httpclient")
+        exclude(group = "commons-logging", module = "commons-logging")
+    }
     implementation("com.google.http-client:google-http-client-gson:1.43.3")
 
     // Hilt
