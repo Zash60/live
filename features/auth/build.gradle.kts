@@ -5,6 +5,10 @@ plugins {
     id("com.google.dagger.hilt.android")
 }
 
+repositories {
+    mavenCentral()
+}
+
 android {
     namespace = "com.example.liveapp.features.auth"
     compileSdk = 34
@@ -63,7 +67,7 @@ dependencies {
     implementation("com.google.android.gms:play-services-auth:20.7.0")
 
     // YouTube API
-    implementation("com.google.apis:google-api-services-youtube:v3-rev20230701-2.0.0")
+    implementation("com.google.apis:google-api-services-youtube:v3-rev20251217-2.0.0")
     implementation("com.google.api-client:google-api-client-android:2.2.0")
     implementation("com.google.http-client:google-http-client-gson:1.43.3")
 }

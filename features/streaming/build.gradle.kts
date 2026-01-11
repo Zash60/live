@@ -5,6 +5,10 @@ plugins {
     id("com.google.dagger.hilt.android")
 }
 
+repositories {
+    mavenCentral()
+}
+
 android {
     namespace = "com.example.liveapp.features.streaming"
     compileSdk = 34
@@ -61,7 +65,7 @@ dependencies {
     implementation("androidx.hilt:hilt-work:1.0.0")
 
     // YouTube Live API
-    implementation("com.google.apis:google-api-services-youtube:v3-rev20231115-2.0.0")
+    implementation("com.google.apis:google-api-services-youtube:v3-rev20251217-2.0.0")
     implementation("com.google.api-client:google-api-client-android:2.2.0")
     implementation("com.google.http-client:google-http-client-gson:1.43.3")
     implementation("com.google.auth:google-auth-library-oauth2-http:1.19.0")
