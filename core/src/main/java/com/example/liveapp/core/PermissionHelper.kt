@@ -27,6 +27,7 @@ object PermissionHelper {
     }
 
     fun requestPermissions(launcher: ActivityResultLauncher<Array<String>>, vararg permissions: String) {
+        @Suppress("UNCHECKED_CAST")
         launcher.launch(permissions as Array<String>)
     }
 

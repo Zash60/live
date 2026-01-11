@@ -99,6 +99,7 @@ class CoilImageLoader @Inject constructor(
         imageLoader.memoryCache?.clear()
     }
 
+    @OptIn(coil.annotation.ExperimentalCoilApi::class)
     fun clearDiskCache() {
         imageLoader.diskCache?.clear()
     }

@@ -79,7 +79,7 @@ class NetworkOptimizer @Inject constructor() {
     }
 
     // Connection health check
-    suspend fun checkConnectionHealth(url: String): Boolean {
+    suspend fun checkConnectionHealth(): Boolean {
         return executeWithRetry(
             maxRetries = 1,
             initialDelayMs = 100,
