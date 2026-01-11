@@ -23,6 +23,7 @@ import com.example.liveapp.features.streaming.STREAMING_GRAPH
 import com.example.liveapp.features.streaming.streamingGraph
 import com.example.liveapp.ui.screens.DashboardScreen
 import com.example.liveapp.ui.screens.StatisticsScreen
+import com.example.liveapp.features.settings.ui.SettingsScreen
 
 enum class MainScreen(val route: String, val title: String) {
     Dashboard("dashboard", "Dashboard"),
@@ -91,7 +92,7 @@ fun MainNavigation(
                 }
 
                 composable(MainScreen.Settings.route) {
-                    com.example.liveapp.ui.screens.SettingsScreen()
+                    SettingsScreen(navController = navController)
                 }
 
                 // Include all feature graphs
