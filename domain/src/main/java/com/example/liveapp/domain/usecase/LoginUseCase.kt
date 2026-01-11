@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.Flow
  *
  * @property userRepository Repository for user-related data operations
  */
-class LoginUseCase @Inject constructor(
+class LoginUseCase constructor(
     private val userRepository: UserRepository
 ) {
 
