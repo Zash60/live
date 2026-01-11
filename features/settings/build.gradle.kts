@@ -39,10 +39,15 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":domain"))
     implementation(project(":data"))
+    // Adicionado para corrigir erro de referência a StreamPreset
+    implementation(project(":features:streaming"))
 
     // Hilt
     implementation("com.google.dagger:hilt-android:2.46")
     kapt("com.google.dagger:hilt-compiler:2.46")
+    
+    // Adicionado para corrigir erro de referência a hiltViewModel()
+    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
 
     // Compose
     implementation("androidx.compose.ui:ui:1.5.0")
