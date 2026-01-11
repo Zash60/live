@@ -41,7 +41,6 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":domain"))
     implementation(project(":data"))
-    // Adicionado: Módulo de chat
     implementation(project(":features:chat"))
 
     // Hilt
@@ -51,9 +50,7 @@ dependencies {
     // Compose
     implementation("androidx.compose.ui:ui:1.5.0")
     implementation("androidx.compose.material:material:1.5.0")
-    // Adicionado: Material3 é necessário pois o módulo de chat usa M3
     implementation("androidx.compose.material3:material3:1.1.1")
-    // Adicionado: Ícones estendidos para PictureInPicture
     implementation("androidx.compose.material:material-icons-extended:1.5.0")
     
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
@@ -69,14 +66,20 @@ dependencies {
     implementation("androidx.hilt:hilt-work:1.0.0")
     kapt("androidx.hilt:hilt-compiler:1.0.0")
 
-    // Room
+    // Room - Note: Removed kapt room-compiler from here since entities are in :data module
     implementation("androidx.room:room-runtime:2.6.1")
     implementation("androidx.room:room-ktx:2.6.1")
-    kapt("androidx.room:room-compiler:2.6.1")
+    // If this module does NOT define entities/DAOs, it might not need the compiler.
+    // However, keeping it doesn't usually hurt unless version mismatch.
+    // Let's remove it to see if it fixes "Could not load module"
+    // kapt("androidx.room:room-compiler:2.6.1") 
 
     // YouTube Live API
     implementation("com.google.apis:google-api-services-youtube:v3-rev20251217-2.0.0")
-    implementation("com.google.api-client:google-api-client-android:2.2.0")
+    implementation("com.google.api-client:google-api-client-android:2.2.0") {
+        exclude(group = "org.apache.httpcomponents", module = "httpclient")
+        exclude(group = "commons-logging", module = "commons-logging")
+    }
     implementation("com.google.http-client:google-http-client-gson:1.43.3")
     implementation("com.google.auth:google-auth-library-oauth2-http:1.19.0")
 
