@@ -34,13 +34,6 @@ android {
     }
 
     signingConfigs {
-        getByName("debug") {
-            storeFile = rootProject.file("debug.keystore")
-            storePassword = "android"
-            keyAlias = "androiddebugkey"
-            keyPassword = "android"
-        }
-
         create("release") {
             storeFile = rootProject.file("release.keystore")
             storePassword = System.getenv("RELEASE_STORE_PASSWORD") ?: "default_password"
