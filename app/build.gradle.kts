@@ -150,6 +150,9 @@ dependencies {
     implementation("androidx.activity:activity-compose:1.8.2")
     implementation("androidx.work:work-runtime-ktx:2.9.0")
 
+    // Material Components
+    implementation("com.google.android.material:material:1.10.0")
+
     // Testing
     testImplementation("junit:junit:4.13.2")
     testImplementation("io.mockk:mockk:1.13.5")
