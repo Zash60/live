@@ -64,6 +64,7 @@ dependencies {
     // WorkManager
     implementation("androidx.work:work-runtime-ktx:2.9.0")
     implementation("androidx.hilt:hilt-work:1.0.0")
+    // REMOVED: kapt("androidx.hilt:hilt-compiler:1.0.0")
 
     // Room - Runtime only, no compiler needed here as entities are in :data
     implementation("androidx.room:room-runtime:2.6.1")
