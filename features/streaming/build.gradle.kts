@@ -41,7 +41,7 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":domain"))
     implementation(project(":data"))
-    // Adicionado: Dependência do módulo de chat
+    // Necessário para ChatOverlay e AlertNotification
     implementation(project(":features:chat"))
 
     // Hilt
@@ -51,7 +51,7 @@ dependencies {
     // Compose
     implementation("androidx.compose.ui:ui:1.5.0")
     implementation("androidx.compose.material:material:1.5.0")
-    // Adicionado: Ícones estendidos (necessário para PictureInPicture)
+    // Necessário para ícones como PictureInPicture
     implementation("androidx.compose.material:material-icons-extended:1.5.0")
     
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
