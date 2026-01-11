@@ -7,8 +7,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationCompat
-import com.example.liveapp.MainActivity
-import com.example.liveapp.R
 
 object NotificationHelper {
 
@@ -48,14 +46,14 @@ object NotificationHelper {
         }
     }
 
-    fun sendStreamingAlert(context: Context, title: String, message: String) {
-        val intent = Intent(context, MainActivity::class.java).apply {
+    fun sendStreamingAlert(context: Context, title: String, message: String, activityClass: Class<*>, iconRes: Int) {
+        val intent = Intent(context, activityClass).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
         val pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
 
         val notification = NotificationCompat.Builder(context, CHANNEL_ID_STREAMING)
-            .setSmallIcon(R.drawable.ic_launcher_foreground) // Replace with actual icon
+            .setSmallIcon(iconRes)
             .setContentTitle(title)
             .setContentText(message)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
@@ -67,12 +65,12 @@ object NotificationHelper {
         notificationManager.notify(System.currentTimeMillis().toInt(), notification)
     }
 
-    fun sendChatNotification(context: Context, title: String, message: String) {
-        val intent = Intent(context, MainActivity::class.java)
+    fun sendChatNotification(context: Context, title: String, message: String, activityClass: Class<*>, iconRes: Int) {
+        val intent = Intent(context, activityClass)
         val pendingIntent = PendingIntent.getActivity(context, 1, intent, PendingIntent.FLAG_IMMUTABLE)
 
         val notification = NotificationCompat.Builder(context, CHANNEL_ID_CHAT)
-            .setSmallIcon(R.drawable.ic_launcher_foreground)
+            .setSmallIcon(iconRes)
             .setContentTitle(title)
             .setContentText(message)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
@@ -84,12 +82,12 @@ object NotificationHelper {
         notificationManager.notify(System.currentTimeMillis().toInt(), notification)
     }
 
-    fun sendSchedulingNotification(context: Context, title: String, message: String) {
-        val intent = Intent(context, MainActivity::class.java)
+    fun sendSchedulingNotification(context: Context, title: String, message: String, activityClass: Class<*>, iconRes: Int) {
+        val intent = Intent(context, activityClass)
         val pendingIntent = PendingIntent.getActivity(context, 2, intent, PendingIntent.FLAG_IMMUTABLE)
 
         val notification = NotificationCompat.Builder(context, CHANNEL_ID_SCHEDULING)
-            .setSmallIcon(R.drawable.ic_launcher_foreground)
+            .setSmallIcon(iconRes)
             .setContentTitle(title)
             .setContentText(message)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)

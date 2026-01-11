@@ -60,6 +60,11 @@ dependencies {
     implementation("androidx.work:work-runtime-ktx:2.9.0")
     implementation("androidx.hilt:hilt-work:1.0.0")
 
+    // Room
+    implementation("androidx.room:room-runtime:2.6.1")
+    implementation("androidx.room:room-ktx:2.6.1")
+    kapt("androidx.room:room-compiler:2.6.1")
+
     // YouTube Live API
     implementation("com.google.apis:google-api-services-youtube:v3-rev20251217-2.0.0")
     implementation("com.google.api-client:google-api-client-android:2.2.0")

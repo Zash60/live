@@ -90,10 +90,10 @@ class BatteryOptimizationManager @Inject constructor(
         // If power save mode is on, reduce quality significantly
         if (powerSaveMode) {
             return when (originalPreset) {
-                QualityPreset.ULTRA_HD -> QualityPreset.HD_1080P
-                QualityPreset.HD_1080P -> QualityPreset.HD_720P
-                QualityPreset.HD_720P -> QualityPreset.SD_480P
-                else -> QualityPreset.SD_480P
+                QualityPreset.ULTRA -> QualityPreset.HIGH
+                QualityPreset.HIGH -> QualityPreset.MEDIUM
+                QualityPreset.MEDIUM -> QualityPreset.LOW
+                else -> QualityPreset.LOW
             }
         }
 
@@ -103,8 +103,8 @@ class BatteryOptimizationManager @Inject constructor(
             batteryLevel > 20 -> {
                 // Reduce quality when battery is between 20-50%
                 when (originalPreset) {
-                    QualityPreset.ULTRA_HD -> QualityPreset.HD_1080P
-                    QualityPreset.HD_1080P -> QualityPreset.HD_720P
+                    QualityPreset.ULTRA -> QualityPreset.HIGH
+                    QualityPreset.HIGH -> QualityPreset.MEDIUM
                     else -> originalPreset
                 }
             }
