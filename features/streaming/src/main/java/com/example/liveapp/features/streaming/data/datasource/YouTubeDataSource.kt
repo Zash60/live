@@ -19,13 +19,14 @@ import com.google.api.services.youtube.model.LiveBroadcastSnippet
 import com.google.api.services.youtube.model.LiveBroadcastStatus
 import com.google.api.services.youtube.model.LiveStream
 import com.google.api.services.youtube.model.LiveStreamSnippet
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.IOException
 import javax.inject.Inject
 
 class YouTubeDataSource @Inject constructor(
-    private val context: Context
+    @ApplicationContext private val context: Context
 ) {
 
     private val transport = NetHttpTransport()
