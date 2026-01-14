@@ -20,7 +20,7 @@ import com.example.liveapp.features.streaming.domain.model.QualityPreset
 import com.example.liveapp.domain.model.Resolution
 import com.example.liveapp.domain.model.YouTubePrivacyStatus
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
 @Composable
 fun StreamingConfigScreen(
     onStartStreaming: () -> Unit,
@@ -260,6 +260,7 @@ fun StreamingConfigScreen(
     }
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun QualityPresetCard(
     preset: QualityPreset,
