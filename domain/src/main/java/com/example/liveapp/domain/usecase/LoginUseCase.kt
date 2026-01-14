@@ -3,6 +3,7 @@ package com.example.liveapp.domain.usecase
 import com.example.liveapp.domain.model.User
 import com.example.liveapp.domain.repository.UserRepository
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
 /**
  * Use case for handling user login operations.
@@ -13,7 +14,7 @@ import kotlinx.coroutines.flow.Flow
  *
  * @property userRepository Repository for user-related data operations
  */
-class LoginUseCase constructor(
+class LoginUseCase @Inject constructor(
     private val userRepository: UserRepository
 ) {
 
