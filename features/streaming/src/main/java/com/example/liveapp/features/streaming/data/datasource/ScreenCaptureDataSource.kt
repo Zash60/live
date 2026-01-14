@@ -12,13 +12,14 @@ import android.os.HandlerThread
 import android.util.LruCache
 import android.view.Surface
 import com.example.liveapp.domain.model.Resolution
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.suspendCancellableCoroutine
 import java.lang.ref.WeakReference
 import javax.inject.Inject
 import kotlin.coroutines.resume
 
 class ScreenCaptureDataSource @Inject constructor(
-    private val context: Context
+    @ApplicationContext private val context: Context
 ) {
     private var mediaProjection: MediaProjection? = null
     private var virtualDisplay: VirtualDisplay? = null
