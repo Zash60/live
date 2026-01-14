@@ -8,6 +8,7 @@ import com.example.liveapp.features.streaming.domain.model.YouTubeLiveEvent
 import com.example.liveapp.features.streaming.domain.model.YouTubeStreamDetails
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential
 import com.google.api.client.googleapis.json.GoogleJsonResponseException
+import com.google.api.client.http.InputStreamContent
 import com.google.api.client.http.javanet.NetHttpTransport
 import com.google.api.client.json.gson.GsonFactory
 import com.google.api.services.youtube.YouTube
@@ -50,7 +51,7 @@ class YouTubeDataSource @Inject constructor(
                     scheduledStartTime = event.scheduledStartTime?.let {
                         com.google.api.client.util.DateTime(it)
                     }
-                    tags = event.tags
+                    // tags e categoryId removidos pois não são suportados diretamente no snippet de broadcast
                 }
                 status = LiveBroadcastStatus().apply {
                     privacyStatus = event.privacyStatus.name.lowercase()
@@ -81,8 +82,8 @@ class YouTubeDataSource @Inject constructor(
                     PrivacyStatus.valueOf(response.status.privacyStatus.uppercase())
                 } catch (e: Exception) { PrivacyStatus.PRIVATE },
                 scheduledStartTime = response.snippet.scheduledStartTime?.toStringRfc3339(),
-                categoryId = response.snippet.categoryId ?: "20",
-                tags = response.snippet.tags ?: emptyList(),
+                categoryId = "20", // Default
+                tags = emptyList(),
                 broadcastStatus = try {
                     BroadcastStatus.valueOf(response.status.lifeCycleStatus.uppercase())
                 } catch (e: Exception) { BroadcastStatus.CREATED }
@@ -150,7 +151,8 @@ class YouTubeDataSource @Inject constructor(
     ): Result<Unit> = withContext(Dispatchers.IO) {
         try {
             val youtube = getYouTubeService(credential)
-            val request = youtube.liveBroadcasts().bind(broadcastId, streamId)
+            val request = youtube.liveBroadcasts().bind(broadcastId, listOf("id", "contentDetails", "status"))
+            request.streamId = streamId
             request.execute()
             Result.success(Unit)
         } catch (e: GoogleJsonResponseException) {
@@ -169,17 +171,14 @@ class YouTubeDataSource @Inject constructor(
     ): Result<Unit> = withContext(Dispatchers.IO) {
         try {
             val youtube = getYouTubeService(credential)
-            val content = context.contentResolver.openInputStream(android.net.Uri.parse(thumbnailUri))
+            val inputStream = context.contentResolver.openInputStream(android.net.Uri.parse(thumbnailUri))
                 ?: throw IOException("Cannot open thumbnail file")
 
-            val request = youtube.thumbnails().set(broadcastId)
+            val mediaContent = InputStreamContent("image/jpeg", inputStream)
+            val request = youtube.thumbnails().set(broadcastId, mediaContent)
             request.mediaHttpUploader.isDirectUploadEnabled = false
-            request.mediaHttpUploader.chunkSize = 1024 * 1024 
-            request.mediaHttpUploader.mediaContent = com.google.api.client.http.InputStreamContent(
-                "image/jpeg",
-                content
-            )
             request.execute()
+            
             Result.success(Unit)
         } catch (e: GoogleJsonResponseException) {
             Result.failure(mapGoogleJsonException(e))
@@ -211,8 +210,8 @@ class YouTubeDataSource @Inject constructor(
                     PrivacyStatus.valueOf(broadcast.status.privacyStatus.uppercase())
                 } catch (e: Exception) { PrivacyStatus.PRIVATE },
                 scheduledStartTime = broadcast.snippet.scheduledStartTime?.toStringRfc3339(),
-                categoryId = broadcast.snippet.categoryId ?: "20",
-                tags = broadcast.snippet.tags ?: emptyList(),
+                categoryId = "20",
+                tags = emptyList(),
                 broadcastStatus = try {
                     BroadcastStatus.valueOf(broadcast.status.lifeCycleStatus.uppercase())
                 } catch (e: Exception) { BroadcastStatus.CREATED }
