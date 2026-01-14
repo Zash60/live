@@ -5,14 +5,15 @@ import androidx.lifecycle.viewModelScope
 import com.example.liveapp.features.streaming.domain.model.NetworkStats
 import com.example.liveapp.features.streaming.domain.model.QualityPreset
 import com.example.liveapp.domain.model.StreamConfig
+import com.example.liveapp.domain.model.YouTubePrivacyStatus
 import com.example.liveapp.features.streaming.domain.model.StreamState
+import com.example.liveapp.features.streaming.domain.model.YouTubeLiveEvent
 import com.example.liveapp.features.streaming.domain.usecase.GetNetworkStatsUseCase
 import com.example.liveapp.features.streaming.domain.usecase.StartStreamUseCase
 import com.example.liveapp.features.streaming.domain.usecase.StopStreamUseCase
 import com.example.liveapp.features.streaming.domain.usecase.UpdateSettingsUseCase
 import com.example.liveapp.features.streaming.domain.usecase.CreateLiveEventUseCase
 import com.example.liveapp.features.streaming.domain.usecase.UpdateThumbnailUseCase
-import com.example.liveapp.features.streaming.domain.model.YouTubePrivacyStatus
 import com.example.liveapp.features.streaming.data.datasource.YouTubeAuthManager
 import com.example.liveapp.features.streaming.utils.BatteryOptimizationManager
 import com.example.liveapp.core.PerformanceMonitor
@@ -178,13 +179,13 @@ class StreamingViewModel @Inject constructor(
 
         viewModelScope.launch {
             val config = _currentConfig.value
-            val event = com.example.liveapp.features.streaming.domain.model.YouTubeLiveEvent(
+            val event = YouTubeLiveEvent(
                 title = config.youTubeEventTitle,
                 description = config.youTubeEventDescription,
                 privacyStatus = when (config.youTubePrivacyStatus) {
-                    YouTubePrivacyStatus.PUBLIC -> com.example.liveapp.features.streaming.domain.model.YouTubeLiveEvent.PrivacyStatus.PUBLIC
-                    YouTubePrivacyStatus.PRIVATE -> com.example.liveapp.features.streaming.domain.model.YouTubeLiveEvent.PrivacyStatus.PRIVATE
-                    YouTubePrivacyStatus.UNLISTED -> com.example.liveapp.features.streaming.domain.model.YouTubeLiveEvent.PrivacyStatus.UNLISTED
+                    YouTubePrivacyStatus.PUBLIC -> YouTubeLiveEvent.PrivacyStatus.PUBLIC
+                    YouTubePrivacyStatus.PRIVATE -> YouTubeLiveEvent.PrivacyStatus.PRIVATE
+                    YouTubePrivacyStatus.UNLISTED -> YouTubeLiveEvent.PrivacyStatus.UNLISTED
                 }
             )
 
