@@ -2,21 +2,21 @@ package com.example.liveapp.features.streaming
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.liveapp.features.streaming.domain.model.NetworkStats
-import com.example.liveapp.features.streaming.domain.model.QualityPreset
+import com.example.liveapp.core.PerformanceMonitor
 import com.example.liveapp.domain.model.StreamConfig
 import com.example.liveapp.domain.model.YouTubePrivacyStatus
+import com.example.liveapp.features.streaming.data.datasource.YouTubeAuthManager
+import com.example.liveapp.features.streaming.domain.model.NetworkStats
+import com.example.liveapp.features.streaming.domain.model.QualityPreset
 import com.example.liveapp.features.streaming.domain.model.StreamState
 import com.example.liveapp.features.streaming.domain.model.YouTubeLiveEvent
+import com.example.liveapp.features.streaming.domain.usecase.CreateLiveEventUseCase
 import com.example.liveapp.features.streaming.domain.usecase.GetNetworkStatsUseCase
 import com.example.liveapp.features.streaming.domain.usecase.StartStreamUseCase
 import com.example.liveapp.features.streaming.domain.usecase.StopStreamUseCase
 import com.example.liveapp.features.streaming.domain.usecase.UpdateSettingsUseCase
-import com.example.liveapp.features.streaming.domain.usecase.CreateLiveEventUseCase
 import com.example.liveapp.features.streaming.domain.usecase.UpdateThumbnailUseCase
-import com.example.liveapp.features.streaming.data.datasource.YouTubeAuthManager
 import com.example.liveapp.features.streaming.utils.BatteryOptimizationManager
-import com.example.liveapp.core.PerformanceMonitor
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -26,6 +26,8 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.math.min
+import kotlin.math.max
 
 @HiltViewModel
 class StreamingViewModel @Inject constructor(
@@ -60,8 +62,8 @@ class StreamingViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             getNetworkStatsUseCase()
-                .distinctUntilChanged() // Only emit when stats actually change
-                .debounce(500) // Wait 500ms after last emission before processing
+                .distinctUntilChanged()
+                .debounce(500)
                 .collectLatest { stats ->
                     _networkStats.value = stats
                 }
@@ -96,17 +98,14 @@ class StreamingViewModel @Inject constructor(
     fun selectQualityPreset(preset: QualityPreset) {
         val currentConfig = _currentConfig.value
 
-        // If performance mode is enabled, prioritize quality over battery savings
         val (finalPreset, finalFps) = if (currentConfig.performanceMode) {
-            // In performance mode, use higher quality and FPS, but still respect some battery limits
             val performancePreset = when (preset) {
-                QualityPreset.SD_480P -> QualityPreset.HD_720P
+                QualityPreset.LOW -> QualityPreset.MEDIUM // Use Medium instead of Low for mapping
                 else -> preset
             }
-            val performanceFps = minOf(preset.fps, 60) // Cap at 60 FPS for gaming
+            val performanceFps = min(preset.fps, 60)
             Pair(performancePreset, performanceFps)
         } else {
-            // Apply battery optimization to the selected preset
             val optimizedPreset = batteryOptimizationManager.getAdaptiveQualityPreset(preset)
             val adaptiveFps = batteryOptimizationManager.getAdaptiveFrameRate(preset.fps)
             Pair(optimizedPreset, adaptiveFps)
@@ -148,7 +147,6 @@ class StreamingViewModel @Inject constructor(
         updateConfig(updatedConfig)
     }
 
-    // YouTube Live methods
     fun updateUseYouTubeLive(enabled: Boolean) {
         val updatedConfig = _currentConfig.value.copy(useYouTubeLive = enabled)
         _currentConfig.value = updatedConfig
@@ -172,7 +170,6 @@ class StreamingViewModel @Inject constructor(
     fun createYouTubeEvent() {
         val credential = youTubeAuthManager.getCredential()
         if (credential == null) {
-            // TODO: Handle not signed in - trigger sign in flow
             println("User not signed in to YouTube")
             return
         }
@@ -191,7 +188,6 @@ class StreamingViewModel @Inject constructor(
 
             createLiveEventUseCase(credential, event).fold(
                 onSuccess = { (broadcast, stream) ->
-                    // Update config with broadcast and stream IDs, and RTMP details
                     val updatedConfig = config.copy(
                         youTubeBroadcastId = broadcast.id,
                         youTubeStreamId = stream.streamId,
@@ -201,8 +197,6 @@ class StreamingViewModel @Inject constructor(
                     _currentConfig.value = updatedConfig
                 },
                 onFailure = { error ->
-                    // TODO: Handle error - show snackbar or dialog
-                    // For now, just log
                     println("Error creating YouTube event: ${error.message}")
                 }
             )
@@ -220,11 +214,8 @@ class StreamingViewModel @Inject constructor(
             val broadcastId = _currentConfig.value.youTubeBroadcastId
             if (broadcastId != null) {
                 updateThumbnailUseCase(credential, broadcastId, thumbnailUri).fold(
-                    onSuccess = {
-                        // TODO: Show success message
-                    },
+                    onSuccess = { },
                     onFailure = { error ->
-                        // TODO: Handle error
                         println("Error updating thumbnail: ${error.message}")
                     }
                 )
@@ -236,12 +227,11 @@ class StreamingViewModel @Inject constructor(
         val currentConfig = _currentConfig.value
         val newPerformanceMode = !currentConfig.performanceMode
 
-        // When enabling performance mode, optimize for gaming (lower latency, higher FPS if possible)
         val updatedConfig = if (newPerformanceMode) {
             currentConfig.copy(
                 performanceMode = true,
-                fps = minOf(currentConfig.fps, 60), // Cap at 60 FPS for performance
-                bitrate = maxOf(currentConfig.bitrate, 4000) // Higher bitrate for quality
+                fps = min(currentConfig.fps, 60),
+                bitrate = max(currentConfig.bitrate, 4000)
             )
         } else {
             currentConfig.copy(performanceMode = false)
