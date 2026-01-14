@@ -95,7 +95,8 @@ android {
         buildConfig = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.3"
+        // CORREÇÃO: Atualizado para 1.5.1 para compatibilidade com Kotlin 1.9.0
+        kotlinCompilerExtensionVersion = "1.5.1"
     }
 
     bundle {
@@ -124,11 +125,11 @@ dependencies {
     implementation("com.google.dagger:hilt-android:2.46")
     kapt("com.google.dagger:hilt-compiler:2.46")
 
-    // Compose
-    implementation("androidx.compose.ui:ui:1.4.3")
+    // Compose (Atualizado para 1.5.0)
+    implementation("androidx.compose.ui:ui:1.5.0")
     implementation("androidx.compose.material3:material3:1.1.1")
-    implementation("androidx.compose.material:material-icons-extended:1.4.3")
-    implementation("androidx.compose.ui:ui-tooling-preview:1.4.3")
+    implementation("androidx.compose.material:material-icons-extended:1.5.0")
+    implementation("androidx.compose.ui:ui-tooling-preview:1.5.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
 
     // Image Loading
@@ -157,7 +158,7 @@ dependencies {
     androidTestImplementation("androidx.test:runner:1.5.2")
     androidTestImplementation("androidx.test:rules:1.5.0")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.4.3")
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.5.0")
     androidTestImplementation("io.mockk:mockk-android:1.13.5")
     androidTestImplementation("com.google.dagger:hilt-android-testing:2.46")
     kaptAndroidTest("com.google.dagger:hilt-compiler:2.46")
