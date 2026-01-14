@@ -95,7 +95,6 @@ android {
         buildConfig = true
     }
     composeOptions {
-        // CORREÇÃO: Atualizado para 1.5.1 para compatibilidade com Kotlin 1.9.0
         kotlinCompilerExtensionVersion = "1.5.1"
     }
 
@@ -124,8 +123,12 @@ dependencies {
     // Hilt
     implementation("com.google.dagger:hilt-android:2.46")
     kapt("com.google.dagger:hilt-compiler:2.46")
+    // Added Hilt extensions
+    implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
+    implementation("androidx.hilt:hilt-work:1.1.0")
+    kapt("androidx.hilt:hilt-compiler:1.1.0")
 
-    // Compose (Atualizado para 1.5.0)
+    // Compose
     implementation("androidx.compose.ui:ui:1.5.0")
     implementation("androidx.compose.material3:material3:1.1.1")
     implementation("androidx.compose.material:material-icons-extended:1.5.0")
