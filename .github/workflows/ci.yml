@@ -42,17 +42,8 @@ jobs:
     - name: Build debug APK
       run: ./gradlew assembleDebug --no-daemon
 
-    - name: Build release bundle
-      run: ./gradlew bundleRelease --no-daemon
-
     - name: Upload debug APK
       uses: actions/upload-artifact@v4
       with:
         name: debug-apk
         path: app/build/outputs/apk/debug/*.apk
-
-    - name: Upload release bundle
-      uses: actions/upload-artifact@v4
-      with:
-        name: release-bundle
-        path: app/build/outputs/bundle/release/*.aab
