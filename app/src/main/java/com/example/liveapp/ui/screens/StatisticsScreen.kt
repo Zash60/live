@@ -2,6 +2,7 @@ package com.example.liveapp.ui.screens
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.BarChart
 import androidx.compose.material.icons.filled.People
@@ -20,7 +21,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.liveapp.features.streaming.domain.model.ScheduledStream
 import com.example.liveapp.domain.model.StreamConfig
 import com.example.liveapp.features.streaming.domain.model.StreamHistory
-import com.example.liveapp.features.streaming.domain.usecase.SaveScheduledStreamUseCase
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -36,6 +36,7 @@ fun StatisticsScreen(
     var showScheduleDialog by remember { mutableStateOf(false) }
     var scheduleTitle by remember { mutableStateOf("") }
     var selectedDateTime by remember { mutableStateOf(LocalDateTime.now()) }
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -133,7 +134,9 @@ fun StatisticsScreen(
                         )
                     }
                 }
+            }
             
+            item {
                 if (showScheduleDialog) {
                     AlertDialog(
                         onDismissRequest = { showScheduleDialog = false },
@@ -174,13 +177,6 @@ fun StatisticsScreen(
                         }
                     )
                 }
-            }
-            
-            private fun formatDuration(minutes: Double): String {
-                val totalMinutes = minutes.toInt()
-                val hours = totalMinutes / 60
-                val mins = totalMinutes % 60
-                return if (hours > 0) "${hours}h ${mins}m" else "${mins}m"
             }
 
             item {
@@ -298,4 +294,11 @@ fun StatisticsScreen(
             }
         }
     }
+}
+
+private fun formatDuration(minutes: Double): String {
+    val totalMinutes = minutes.toInt()
+    val hours = totalMinutes / 60
+    val mins = totalMinutes % 60
+    return if (hours > 0) "${hours}h ${mins}m" else "${mins}m"
 }
