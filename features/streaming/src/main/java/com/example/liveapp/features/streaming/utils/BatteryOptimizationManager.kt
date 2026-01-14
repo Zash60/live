@@ -7,11 +7,9 @@ import android.content.IntentFilter
 import android.os.BatteryManager
 import android.os.PowerManager
 import com.example.liveapp.features.streaming.domain.model.QualityPreset
-import com.example.liveapp.domain.model.StreamConfig
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.distinctUntilChanged
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -21,13 +19,13 @@ class BatteryOptimizationManager @Inject constructor(
 ) {
 
     private val _batteryLevel = MutableStateFlow(100)
-    val batteryLevel: StateFlow<Int> = _batteryLevel.asStateFlow().distinctUntilChanged()
+    val batteryLevel: StateFlow<Int> = _batteryLevel.asStateFlow()
 
     private val _isCharging = MutableStateFlow(false)
-    val isCharging: StateFlow<Boolean> = _isCharging.asStateFlow().distinctUntilChanged()
+    val isCharging: StateFlow<Boolean> = _isCharging.asStateFlow()
 
     private val _powerSaveMode = MutableStateFlow(false)
-    val powerSaveMode: StateFlow<Boolean> = _powerSaveMode.asStateFlow().distinctUntilChanged()
+    val powerSaveMode: StateFlow<Boolean> = _powerSaveMode.asStateFlow()
 
     private val powerManager = context.getSystemService(Context.POWER_SERVICE) as PowerManager
 
@@ -45,7 +43,7 @@ class BatteryOptimizationManager @Inject constructor(
 
                     _powerSaveMode.value = powerManager.isPowerSaveMode
                 }
-                Intent.ACTION_POWER_SAVE_MODE_CHANGED -> {
+                PowerManager.ACTION_POWER_SAVE_MODE_CHANGED -> {
                     _powerSaveMode.value = powerManager.isPowerSaveMode
                 }
             }
@@ -60,7 +58,7 @@ class BatteryOptimizationManager @Inject constructor(
     private fun registerBatteryReceiver() {
         val filter = IntentFilter().apply {
             addAction(Intent.ACTION_BATTERY_CHANGED)
-            addAction(Intent.ACTION_POWER_SAVE_MODE_CHANGED)
+            addAction(PowerManager.ACTION_POWER_SAVE_MODE_CHANGED)
         }
         context.registerReceiver(batteryReceiver, filter)
     }
