@@ -1,5 +1,7 @@
 package com.example.liveapp.domain.model
 
+import java.io.Serializable
+
 data class StreamConfig(
     val resolution: Resolution = Resolution.HD_720P,
     val bitrate: Int = 2000, // kbps
@@ -19,7 +21,7 @@ data class StreamConfig(
     val youTubeStreamId: String? = null,
     // Performance settings
     val performanceMode: Boolean = false // Gaming optimization mode
-)
+) : Serializable
 
 enum class YouTubePrivacyStatus {
     PUBLIC, PRIVATE, UNLISTED
