@@ -33,7 +33,7 @@ fun NetworkIndicator(
     val qualityColor = when (connectionQuality) {
         "Excellent" -> Color.Green
         "Good" -> Color.Yellow
-        "Fair" -> Color.Orange
+        "Fair" -> Color(0xFFFF9800) // Orange
         else -> Color.Red
     }
 
