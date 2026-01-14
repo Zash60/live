@@ -6,6 +6,7 @@ import com.example.liveapp.features.streaming.domain.model.ScheduledStream
 import com.example.liveapp.features.streaming.domain.repository.ScheduledStreamRepository
 import com.google.gson.Gson
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import java.time.LocalDateTime
 import java.time.ZoneOffset
@@ -37,7 +38,7 @@ class ScheduledStreamRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getScheduledStreamById(id: Long): ScheduledStream? {
-        return dao.getScheduledStreamById(id)?.toDomain()
+        return dao.getScheduledStreamById(id).first()?.toDomain()
     }
 
     override suspend fun deleteScheduledStream(id: Long) {
