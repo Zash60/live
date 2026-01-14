@@ -7,6 +7,7 @@ import com.example.liveapp.features.streaming.domain.model.StreamHistory
 import com.example.liveapp.features.streaming.domain.repository.StreamHistoryRepository
 import com.google.gson.Gson
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import java.time.LocalDateTime
 import java.time.ZoneOffset
@@ -31,7 +32,7 @@ class StreamHistoryRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getStreamHistoryById(id: Long): StreamHistory? {
-        return dao.getStreamHistoryById(id)?.toDomain()
+        return dao.getStreamHistoryById(id).first()?.toDomain()
     }
 
     override suspend fun deleteStreamHistory(id: Long) {
@@ -39,19 +40,19 @@ class StreamHistoryRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getTotalStreamsCount(): Int {
-        return dao.getTotalStreamsCount()
+        return dao.getTotalStreamsCount().first()
     }
 
     override suspend fun getAverageDurationMinutes(): Double? {
-        return dao.getAverageDurationMinutes()
+        return dao.getAverageDurationMinutes().first()
     }
 
     override suspend fun getPeakViewers(): Int? {
-        return dao.getPeakViewers()
+        return dao.getPeakViewers().first()
     }
 
     override suspend fun getAverageViewers(): Double? {
-        return dao.getAverageViewers()
+        return dao.getAverageViewers().first()
     }
 
     private fun StreamHistoryEntity.toDomain(): StreamHistory {
