@@ -11,6 +11,9 @@ import android.os.Build
 import android.os.IBinder
 import android.os.PowerManager
 import androidx.core.app.NotificationCompat
+import com.example.liveapp.domain.model.StreamConfig
+import com.example.liveapp.features.streaming.domain.usecase.StartStreamUseCase
+import com.example.liveapp.features.streaming.domain.usecase.StopStreamUseCase
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -23,7 +26,10 @@ import javax.inject.Inject
 class StreamingService : Service() {
 
     @Inject
-    lateinit var streamingViewModel: StreamingViewModel
+    lateinit var startStreamUseCase: StartStreamUseCase
+
+    @Inject
+    lateinit var stopStreamUseCase: StopStreamUseCase
 
     private val CHANNEL_ID = "streaming_channel"
     private val NOTIFICATION_ID = 1
@@ -47,15 +53,23 @@ class StreamingService : Service() {
             startForeground(NOTIFICATION_ID, notification)
         }
 
-        // Start streaming logic here
-        streamingViewModel.startStream()
+        // Start streaming logic here using UseCase directly
+        serviceScope.launch {
+            // Em uma implementação real, a configuração viria dos extras do Intent
+            // val config = intent?.getSerializableExtra("STREAM_CONFIG") as? StreamConfig ?: StreamConfig()
+            val config = StreamConfig() 
+            startStreamUseCase(config)
+        }
 
         return START_STICKY
     }
 
     override fun onDestroy() {
         serviceJob?.cancel()
-        streamingViewModel.stopStream()
+        // Stop streaming using UseCase
+        serviceScope.launch {
+            stopStreamUseCase()
+        }
         releaseWakeLock()
         super.onDestroy()
     }
