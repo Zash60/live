@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.liveapp.features.streaming.StreamingViewModel
+import com.example.liveapp.features.streaming.domain.model.StreamState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -57,7 +58,7 @@ fun DashboardScreen(
                         )
                         Spacer(modifier = Modifier.height(8.dp))
                         Text(
-                            text = "Status: ${if (streamState.isStreaming) "Live" else "Offline"}",
+                            text = "Status: ${if (streamState is StreamState.Streaming) "Live" else "Offline"}",
                             style = MaterialTheme.typography.bodyMedium
                         )
                         Text(
