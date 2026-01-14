@@ -3,9 +3,9 @@ package com.example.liveapp.features.settings.ui
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ColorLens
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Notifications
-import androidx.compose.material.icons.filled.ColorLens
 import androidx.compose.material.icons.filled.PrivacyTip
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -78,7 +78,7 @@ fun SettingsScreen(
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Icon(
-                                    imageVector = Icons.Default.Palette,
+                                    imageVector = Icons.Default.ColorLens,
                                     contentDescription = "Theme"
                                 )
                                 Spacer(modifier = Modifier.width(16.dp))
@@ -280,7 +280,7 @@ fun SettingsScreen(
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Icon(
-                                    imageVector = Icons.Default.Policy,
+                                    imageVector = Icons.Default.PrivacyTip,
                                     contentDescription = "Privacy Policy"
                                 )
                                 Spacer(modifier = Modifier.width(16.dp))
