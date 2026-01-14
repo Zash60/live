@@ -7,6 +7,7 @@ import com.example.liveapp.domain.model.StreamConfig
 import com.example.liveapp.domain.model.YouTubePrivacyStatus
 import com.example.liveapp.features.streaming.data.datasource.YouTubeAuthManager
 import com.example.liveapp.features.streaming.domain.model.NetworkStats
+import com.example.liveapp.features.streaming.domain.model.PrivacyStatus
 import com.example.liveapp.features.streaming.domain.model.QualityPreset
 import com.example.liveapp.features.streaming.domain.model.StreamState
 import com.example.liveapp.features.streaming.domain.model.YouTubeLiveEvent
@@ -100,7 +101,7 @@ class StreamingViewModel @Inject constructor(
 
         val (finalPreset, finalFps) = if (currentConfig.performanceMode) {
             val performancePreset = when (preset) {
-                QualityPreset.LOW -> QualityPreset.MEDIUM // Use Medium instead of Low for mapping
+                QualityPreset.LOW -> QualityPreset.MEDIUM
                 else -> preset
             }
             val performanceFps = min(preset.fps, 60)
@@ -180,9 +181,9 @@ class StreamingViewModel @Inject constructor(
                 title = config.youTubeEventTitle,
                 description = config.youTubeEventDescription,
                 privacyStatus = when (config.youTubePrivacyStatus) {
-                    YouTubePrivacyStatus.PUBLIC -> YouTubeLiveEvent.PrivacyStatus.PUBLIC
-                    YouTubePrivacyStatus.PRIVATE -> YouTubeLiveEvent.PrivacyStatus.PRIVATE
-                    YouTubePrivacyStatus.UNLISTED -> YouTubeLiveEvent.PrivacyStatus.UNLISTED
+                    YouTubePrivacyStatus.PUBLIC -> PrivacyStatus.PUBLIC
+                    YouTubePrivacyStatus.PRIVATE -> PrivacyStatus.PRIVATE
+                    YouTubePrivacyStatus.UNLISTED -> PrivacyStatus.UNLISTED
                 }
             )
 
