@@ -11,7 +11,7 @@ import android.os.Handler
 import android.os.HandlerThread
 import android.util.LruCache
 import android.view.Surface
-import com.example.liveapp.features.streaming.domain.model.Resolution
+import com.example.liveapp.domain.model.Resolution
 import kotlinx.coroutines.suspendCancellableCoroutine
 import java.lang.ref.WeakReference
 import javax.inject.Inject
