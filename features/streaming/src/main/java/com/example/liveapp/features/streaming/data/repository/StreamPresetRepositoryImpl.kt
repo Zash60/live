@@ -6,6 +6,7 @@ import com.example.liveapp.features.streaming.domain.model.StreamPreset
 import com.example.liveapp.features.streaming.domain.repository.StreamPresetRepository
 import com.google.gson.Gson
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -28,7 +29,7 @@ class StreamPresetRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getStreamPresetById(id: Long): StreamPreset? {
-        return dao.getStreamPresetById(id)?.toDomain()
+        return dao.getStreamPresetById(id).first()?.toDomain()
     }
 
     override suspend fun deleteStreamPreset(id: Long) {
