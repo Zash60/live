@@ -82,10 +82,8 @@ class BatteryOptimizationManager @Inject constructor(
         val isCharging = _isCharging.value
         val powerSaveMode = _powerSaveMode.value
 
-        // If charging, use original quality
         if (isCharging) return originalPreset
 
-        // If power save mode is on, reduce quality significantly
         if (powerSaveMode) {
             return when (originalPreset) {
                 QualityPreset.ULTRA -> QualityPreset.HIGH
@@ -95,11 +93,9 @@ class BatteryOptimizationManager @Inject constructor(
             }
         }
 
-        // Adaptive quality based on battery level
         return when {
             batteryLevel > 50 -> originalPreset
             batteryLevel > 20 -> {
-                // Reduce quality when battery is between 20-50%
                 when (originalPreset) {
                     QualityPreset.ULTRA -> QualityPreset.HIGH
                     QualityPreset.HIGH -> QualityPreset.MEDIUM
@@ -107,8 +103,7 @@ class BatteryOptimizationManager @Inject constructor(
                 }
             }
             else -> {
-                // Critical battery - use lowest quality
-                QualityPreset.SD_480P
+                QualityPreset.LOW
             }
         }
     }
@@ -125,9 +120,9 @@ class BatteryOptimizationManager @Inject constructor(
         if (!shouldReduceFrameRate()) return originalFps
 
         return when {
-            _powerSaveMode.value -> 15 // Very low frame rate in power save mode
-            _batteryLevel.value < 15 -> 10 // Critical battery
-            else -> 20 // Reduced frame rate
+            _powerSaveMode.value -> 15
+            _batteryLevel.value < 15 -> 10
+            else -> 20
         }.coerceAtMost(originalFps)
     }
 
