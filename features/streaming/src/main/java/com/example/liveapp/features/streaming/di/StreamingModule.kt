@@ -1,11 +1,19 @@
 package com.example.liveapp.features.streaming.di
 
-import com.example.liveapp.data.datasource.local.StreamingDatabase
-import com.example.liveapp.features.streaming.data.datasource.YouTubeAuthManager
-import com.example.liveapp.features.streaming.data.repository.*
-import com.example.liveapp.features.streaming.domain.repository.*
 import android.content.Context
 import androidx.room.Room
+import com.example.liveapp.data.datasource.local.StreamingDatabase
+import com.example.liveapp.features.streaming.data.datasource.YouTubeAuthManager
+import com.example.liveapp.features.streaming.data.repository.ScheduledStreamRepositoryImpl
+import com.example.liveapp.features.streaming.data.repository.StreamHistoryRepositoryImpl
+import com.example.liveapp.features.streaming.data.repository.StreamPresetRepositoryImpl
+import com.example.liveapp.features.streaming.data.repository.StreamingRepositoryImpl
+import com.example.liveapp.features.streaming.data.repository.YouTubeRepositoryImpl
+import com.example.liveapp.features.streaming.domain.repository.ScheduledStreamRepository
+import com.example.liveapp.features.streaming.domain.repository.StreamHistoryRepository
+import com.example.liveapp.features.streaming.domain.repository.StreamPresetRepository
+import com.example.liveapp.features.streaming.domain.repository.StreamingRepository
+import com.example.liveapp.features.streaming.domain.repository.YouTubeRepository
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -48,23 +56,25 @@ abstract class StreamingModule {
         impl: ScheduledStreamRepositoryImpl
     ): ScheduledStreamRepository
 
-    @Provides
-    @Singleton
-    fun provideYouTubeAuthManager(
-        @ApplicationContext context: Context
-    ): YouTubeAuthManager {
-        return YouTubeAuthManager(context)
-    }
+    companion object {
+        @Provides
+        @Singleton
+        fun provideYouTubeAuthManager(
+            @ApplicationContext context: Context
+        ): YouTubeAuthManager {
+            return YouTubeAuthManager(context)
+        }
 
-    @Provides
-    @Singleton
-    fun provideStreamingDatabase(
-        @ApplicationContext context: Context
-    ): StreamingDatabase {
-        return Room.databaseBuilder(
-            context,
-            StreamingDatabase::class.java,
-            StreamingDatabase.DATABASE_NAME
-        ).build()
+        @Provides
+        @Singleton
+        fun provideStreamingDatabase(
+            @ApplicationContext context: Context
+        ): StreamingDatabase {
+            return Room.databaseBuilder(
+                context,
+                StreamingDatabase::class.java,
+                StreamingDatabase.DATABASE_NAME
+            ).build()
+        }
     }
 }
