@@ -34,7 +34,7 @@ jobs:
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
 
-    - - name: Create local.properties
+    - name: Create local.properties
       run: |
         echo "YOUTUBE_API_KEY=AIzaSyB9_mdlmLtwrFzMGEk2rbBC6VBB5r5Xj0o" > local.properties
         echo "GOOGLE_CLIENT_ID=694387267776-g6oqp0p1ve6u7n72480ornnal1c4a624.apps.googleusercontent.com" >> local.properties
