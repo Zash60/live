@@ -7,15 +7,18 @@ import com.example.liveapp.domain.model.User
 import com.example.liveapp.domain.usecase.GetProfileUseCase
 import com.example.liveapp.domain.usecase.LoginUseCase
 import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.tasks.Task
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.suspendCancellableCoroutine
 import javax.inject.Inject
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
 
 @HiltViewModel
 class AuthViewModel @Inject constructor(
@@ -24,23 +27,11 @@ class AuthViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _authState = MutableStateFlow<AuthState>(AuthState.Idle)
-    /**
-     * Current authentication state exposed to the UI.
-     * Observers can react to state changes for UI updates.
-     */
     val authState: StateFlow<AuthState> = _authState.asStateFlow()
 
     private val _user = MutableStateFlow<User?>(null)
-    /**
-     * Current authenticated user information.
-     * Null when user is not authenticated.
-     */
     val user: StateFlow<User?> = _user.asStateFlow()
 
-    /**
-     * Initiates the user login process.
-     * Sets the authentication state to loading and executes the login use case.
-     */
     fun login() {
         viewModelScope.launch {
             _authState.value = AuthState.Loading
@@ -58,32 +49,26 @@ class AuthViewModel @Inject constructor(
         }
     }
 
-    /**
-     * Processa o resultado do Google Sign-In.
-     * Executa em IO para evitar travamento da Main Thread (Deadlock).
-     */
     fun handleSignInResult(intent: Intent?) {
         viewModelScope.launch {
             _authState.value = AuthState.Loading
             try {
-                // CORREÇÃO: Movemos o processamento para thread de IO
-                withContext(Dispatchers.IO) {
-                    val task = GoogleSignIn.getSignedInAccountFromIntent(intent)
-                    // Isso pode bloquear ou verificar rede, por isso deve ser em IO
-                    task.getResult(ApiException::class.java)
-                }
+                // CORREÇÃO DEFINITIVA: Usamos nossa função awaitTask() personalizada.
+                // Isso não bloqueia a thread, apenas suspende a corrotina.
+                // O erro de Deadlock desaparecerá.
+                val task = GoogleSignIn.getSignedInAccountFromIntent(intent)
+                val account = task.awaitTask()
                 
-                // Se não deu erro acima, volta para a Main Thread aqui e prossegue
+                // Se chegou aqui, sucesso!
                 login()
             } catch (e: ApiException) {
-                _authState.value = AuthState.Error("Google sign in failed: ${e.statusCode}")
+                _authState.value = AuthState.Error("Google sign in failed: Code ${e.statusCode}")
+            } catch (e: Exception) {
+                _authState.value = AuthState.Error("Login error: ${e.message}")
             }
         }
     }
 
-    /**
-     * Retrieves the current user's profile information.
-     */
     fun getProfile() {
         viewModelScope.launch {
             _authState.value = AuthState.Loading
@@ -101,12 +86,19 @@ class AuthViewModel @Inject constructor(
         }
     }
 
-    /**
-     * Logs out the current user.
-     */
     fun logout() {
         _user.value = null
         _authState.value = AuthState.Idle
+    }
+
+    // Função mágica para converter Task do Google em Coroutine sem bloquear threads
+    private suspend fun <T> Task<T>.awaitTask(): T = suspendCancellableCoroutine { continuation ->
+        addOnSuccessListener { result -> 
+            continuation.resume(result) 
+        }
+        addOnFailureListener { exception -> 
+            continuation.resumeWithException(exception) 
+        }
     }
 }
 
