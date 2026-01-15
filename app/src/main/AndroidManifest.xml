@@ -27,18 +27,13 @@
             </intent-filter>
         </activity>
 
-        <!-- CORREÇÃO: Configuração correta para desativar o WorkManager padrão -->
-        <!-- Isso permite que o HiltWorkerFactory (no MainApplication) assuma o controle -->
+        <!-- CORREÇÃO DEFINITIVA PARA O WORKER -->
+        <!-- Removemos completamente o provedor de inicialização automática -->
+        <!-- Isso força o uso da configuração manual que está no seu MainApplication -->
         <provider
             android:name="androidx.startup.InitializationProvider"
             android:authorities="${applicationId}.androidx-startup"
-            android:exported="false"
-            tools:node="merge">
-            <meta-data
-                android:name="androidx.work.WorkManagerInitializer"
-                android:value="androidx.startup"
-                tools:node="remove" />
-        </provider>
+            tools:node="remove" />
 
     </application>
 
